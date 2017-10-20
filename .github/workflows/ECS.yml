@@ -1,0 +1,60 @@
+name: ECS CD
+
+on:
+  workflow_call:
+
+jobs:
+
+  ECS_CD:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: File Task Definition
+      run: aws ecs describe-task-definition --task-definition api-cicd-golang-task-definition-family --query taskDefinition > task-definition.json
+
+    - name: Copy Task Definition
+      run: cp task-definition.json.backup
+
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: api_cicd_golang_id
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        container-name: api-cicd-goalng-taskdefinition
+        image: rafaelcarvalhocaetano/ci_golang:${{ github.run_number }}
+        environment-variables: |
+          DB_HOST=${{ secrets.DB_HOST }}
+          DB_USER=${{ secrets.DB_USER }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          PORT=8000
+
+    - name: Deploy Amazon ECS task definition (Envio da tarefa para aws)
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.api_cicd_golang_id.outputs.task-definition }}
+        service: api-cicd-golang-service-x
+        cluster: api-cicd-golang-cluster
+        wait-for-service-stability: true
+
+    - name: Request
+      continue-on-error: true
+      run: echo "REQUEST=0" >> $GUTHUB_ENV ; sleep 30s ; wget api-cicd-golang-service-lb-120455806.us-east-1.elb.amazonaws.com:8000/usuario-teste || echo "REQUEST=1" >> $GUTHUB_ENV
+
+    # ROLLBACK
+    - name: Deploy Amazon ECS task definition
+      if: ${{ env.REQUEST != 0 }}
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: task-definition.json.backup
+        service: api-cicd-golang-service-x
+        cluster: api-cicd-golang-cluster
+        wait-for-service-stability: true
