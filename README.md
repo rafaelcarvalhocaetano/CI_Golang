@@ -1,1 +1,1 @@
-# ci_cd_golang
+# CI - GithubAction with Golang
