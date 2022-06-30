@@ -10,9 +10,9 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/guilhermeonrails/api-go-gin/controllers"
-	"github.com/guilhermeonrails/api-go-gin/database"
-	"github.com/guilhermeonrails/api-go-gin/models"
+	"github.com/rafaelcarvalhocaetano/ci_cd_golang/controllers"
+	"github.com/rafaelcarvalhocaetano/ci_cd_golang/database"
+	"github.com/rafaelcarvalhocaetano/ci_cd_golang/models"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -38,11 +38,11 @@ func DeletaAlunoMock() {
 func TestVerificaStatusCodeDaSaudacaoComParametro(t *testing.T) {
 	r := SetupDasRotasDeTeste()
 	r.GET("/:nome", controllers.Saudacoes)
-	req, _ := http.NewRequest("GET", "/gui", nil)
+	req, _ := http.NewRequest("GET", "/rafa", nil)
 	resposta := httptest.NewRecorder()
 	r.ServeHTTP(resposta, req)
 	assert.Equal(t, http.StatusOK, resposta.Code, "Deveriam ser iguais")
-	mockDaResposta := `{"API diz":"E ai gui, Tudo beleza?"}`
+	mockDaResposta := `{"API diz":"E ai rafa, Tudo beleza?"}`
 	respostaBody, _ := ioutil.ReadAll(resposta.Body)
 	assert.Equal(t, mockDaResposta, string(respostaBody))
 }

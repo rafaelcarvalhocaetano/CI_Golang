@@ -1,4 +1,4 @@
-module github.com/guilhermeonrails/api-go-gin
+module github.com/rafaelcarvalhocaetano/ci_cd_golang
 
 go 1.15
 
