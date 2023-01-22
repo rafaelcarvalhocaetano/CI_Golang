@@ -26,3 +26,17 @@ nohuop ./main > nohup.out   2>            nohup.err                   < /dev/nul
 
 
 ```
+
+## REDIRECIONAMENTOS SAÍDAS
+
+```bash
+
+No Linux podemos redirecionar as saídas e entradas dos comandos para arquivos ou outros comandos, utilizando o símbolo de maior que >, e o de menor que <.
+
+O símbolo de maior que serve para redirecionar as saídas, podendo ser as saídas de log ou as saídas de erros, enquanto o símbolo de menor que redireciona as entradas.
+
+No nosso caso temos o comando nohup ./main > nohup.out 2> nohup.err < /dev/null &, então temos que os logs vão para o arquivo nohup.out, os erros vão para nohup.err e se o programa precisar de alguma entrada usamos o /dev/null para não mandamos nada.
+
+https://caelum-online-public.s3.amazonaws.com/2697-ci-cd/05/aula5-img1.png
+
+```
