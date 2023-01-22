@@ -49,4 +49,4 @@ jobs:
           export DB_PORT=${{ secrets.DB_PORT }}
           export PORT=8000
           chmod +x main
-          nohuop ./main > nohup.out 2> nohup.err < /dev/null &
+          nohup ./main > nohup.out 2> nohup.err < /dev/null &
