@@ -11,4 +11,6 @@ COPY ./main main
 
 RUN chmod +x main
 
-ENTRYPOINT [ "./main" ]
+COPY ./templates/ templates/
+
+CMD [ "./main" ]
