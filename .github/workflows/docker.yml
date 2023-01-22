@@ -31,7 +31,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: rafaelcarvalhocaetano/ci_golang:${{ github.run_number }}
+        tags: rafaelcarvalhocaetano/ci_golang:23
         # github-token: # optional, default is ${{ github.token }}
 
    

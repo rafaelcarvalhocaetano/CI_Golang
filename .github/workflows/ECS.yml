@@ -17,7 +17,7 @@ jobs:
         aws-region: us-east-1
 
     - name: File Task Definition
-      run: aws ecs describe-task-definition --task-definition ${{ secrets.TASK_DEFINITION_NAME }} --query taskDefinition > task-definition.json
+      run: aws ecs describe-task-definition --task-definition api-cicd-golang-task-definition-family --query taskDefinition > task-definition.json
 
 
     - name: Fill in the new image ID in the Amazon ECS task definition
@@ -26,7 +26,7 @@ jobs:
       with:
         task-definition: task-definition.json
         container-name: api-cicd-golang-cluster
-        image: rafaelcarvalhocaetano/ci_golang:${{ github.run_number }}
+        image: rafaelcarvalhocaetano/ci_golang:23
         environment-variables: |
           DB_HOST=${{ secrets.DB_HOST }}
           DB_USER=${{ secrets.DB_USER }}
@@ -39,6 +39,6 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.api_cicd_golang_id.outputs.task-definition }}
-        service: api-cicd-golang-service
+        service: api-cicd-golang-service-x
         cluster: api-cicd-golang-cluster
         wait-for-service-stability: true
