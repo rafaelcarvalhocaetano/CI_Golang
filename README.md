@@ -1,10 +1,10 @@
 # CI - GithubAction with Golang
 
 Ambos os comandos nohup e & são muito conhecidos em servidores linux, porém não são tão comuns para usarmos nos desktops.
+O nohup é usado para separar o comando depois do terminal.
 
-O nohup é usado para separar o comando depois dele do terminal, mas para que separar um comando do terminal? Eu não interajo com o comando pelo terminal?
-
-Separamos o comando do terminal para que ele continue executando mesmo se o terminal fechar, podemos fazer um teste, se você está em uma máquina linux, você pode iniciar um programa, como o navegador, através de um comando, para o Firefox o comando é firefox e para o google chrome é google-chrome, assim que o navegador abrir, feche o terminal e você verá que o navegador também vai fechar.
+mas para que separar um comando do terminal? Eu não interajo com o comando pelo terminal?
+  - Separamos o comando do terminal para que ele continue executando mesmo se o terminal fechar, podemos fazer um teste, se você está em uma máquina linux, você pode iniciar um programa, como o navegador, através de um comando, para o Firefox o comando é firefox e para o google chrome é google-chrome, assim que o navegador abrir, feche o terminal e você verá que o navegador também vai fechar.
 
 Agora coloque o nohup na frente do comando, ficando com nohup firefox ou nohup google-chrome, assim que o navegador abrir, feche o terminal e você verá que o navegador não irá fechar.
 
