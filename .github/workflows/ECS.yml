@@ -25,7 +25,7 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition.json
-        container-name: api-cicd-golang-cluster
+        container-name: api-cicd-goalng-taskdefinition
         image: rafaelcarvalhocaetano/ci_golang:23
         environment-variables: |
           DB_HOST=${{ secrets.DB_HOST }}
