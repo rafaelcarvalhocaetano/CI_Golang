@@ -1,0 +1,52 @@
+name: EC2 DEPLOY
+
+on:
+  workflow_call:
+
+jobs:
+
+  deploy_ec2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v3.0.2
+      with:
+        name: api_ci_golang
+    - uses: actions/checkout@v3
+
+    - name: Deploy to Staging server
+      uses: easingthemes/ssh-deploy@main
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TARGET: /home/${{ secrets.REMOTE_USER }}
+        EXCLUDE: "postgres-data"
+        # TARGET: ${{ secrets.REMOTE_TARGET }}
+        # ARGS: "-rlgoDzvc -i"
+        # SOURCE: "dist/"
+        # EXCLUDE: "/dist/, /node_modules/"
+        # SCRIPT_BEFORE: |
+        #   whoami
+        #   ls -al
+        # SCRIPT_AFTER: |
+        #   whoami
+        #   ls -al
+        #   echo $RSYNC_STDOUT
+        
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          export HOST=${{ secrets.DB_HOST }}
+          export USER=${{ secrets.DB_USER }}
+          export PASSWORD=${{ secrets.DB_PASSWORD }}
+          export DB_NAME=${{ secrets.DB_NAME }}
+          export DB_PORT=${{ secrets.DB_PORT }}
+          export PORT=8000
+          chmod +x main
+          nohuop ./main &
