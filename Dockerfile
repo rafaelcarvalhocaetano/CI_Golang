@@ -8,8 +8,8 @@ ENV BD_HOST=localhost DB_PORT=5432
 ENV DB_USER=root DB_PASSWORD=postgres DB_NAME=cicdgolang 
 
 COPY ./main main
-COPY ./templates/ /templates/
-COPY ./assets/ /assets/
+COPY ./templates/ .
+COPY ./assets/ .
 
 RUN chmod +x main
 
