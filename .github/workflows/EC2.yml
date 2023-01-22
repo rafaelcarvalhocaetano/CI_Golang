@@ -1,4 +1,4 @@
-name: EC2 DEPLOY
+name: EC2 CD
 
 on:
   workflow_call:

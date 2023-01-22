@@ -54,13 +54,18 @@ jobs:
         path: main
      
 
-  docker:
+  DOCKER_CD:
     needs: build
     uses: ./.github/workflows/docker.yml
     secrets: inherit
 
-  deploy_ec2:
+  EC2_CD:
     needs: build
-    uses: ./.github/workflows/deploy_ec2.yml
+    uses: ./.github/workflows/EC2.yml
+    secrets: inherit
+
+  ECS_CD:
+    needs: DOCKER_CD
+    uses: ./.github/workflows/ECS.yml
     secrets: inherit
     
