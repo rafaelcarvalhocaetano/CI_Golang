@@ -72,5 +72,5 @@ jobs:
   LOAD_TEST:
     needs: DOCKER_CD
     if:  ${{ github.event_name == 'pull_request' && github.head_ref == 'production' }}
-    uses: ./.github/workflows/LOAD_TEST.yml
+    uses: ./.github/workflows/load_test.yml
     secrets: inherit
