@@ -1,1 +1,1 @@
-# ci and cd
+# ci/cd - github actions and golang
